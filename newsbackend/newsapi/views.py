@@ -212,3 +212,8 @@ class ArticleViewSet(viewsets.ModelViewSet):
         with default_storage.open(original_path, 'rb') as f:
             getattr(target_article, field_name).save(new_name, ContentFile(f.read()), save=False)
 
+    def retrieve(self, request, *args, **kwargs):
+        # This handles both /articles/<pk>/ and /articles/<pk>
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)

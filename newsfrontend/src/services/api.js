@@ -23,6 +23,15 @@ export const getArticles = async (language = 'en') => {
   }
 };
 
+
+export const getArticleById = async (id) => {
+  const response = await fetch(`${API_BASE_URL}/api/articles/${id}/`);  // Note the trailing slash
+  if (!response.ok) {
+    throw new Error('Failed to fetch article');
+  }
+  return response.json();
+};
+
 export const createArticle = async (articleData) => {
   try {
     const formData = new FormData();
