@@ -13,7 +13,7 @@ const GridArticles = ({ articles, language, onEdit, onDelete, formatTimeAgo }) =
   return (
     <div className="grid grid-cols-2 gap-0 mb-8">
       {articles.map((article) => (
-        <div key={article.id} className="group relative border-b border-black">
+        <div key={article.id} className="group relative border-b border-b-black border-r border-r-gray-300">
           <div 
             className="bg-gray-50 p-4 h-full flex gap-3 cursor-pointer hover:bg-gray-100 transition-colors"
             onClick={() => handleArticleClick(article.id)}
