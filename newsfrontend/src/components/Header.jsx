@@ -17,8 +17,9 @@ const Header = ({ language, setLanguage }) => {
 
       {/* Top navigation bar */}
       <div className="relative pb-2">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
+            
             {/* Left side - Menu and ePaper */}
             <div className="flex items-center space-x-4">
               <button className="p-1 hover:bg-gray-100 rounded">
@@ -70,7 +71,7 @@ const Header = ({ language, setLanguage }) => {
 
       {/* Main navigation */}
       <div className="border-b border-gray-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="l mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-3">
             
             {/* Language selection */}
@@ -128,3 +129,5 @@ const Header = ({ language, setLanguage }) => {
 };
 
 export default Header;
+
+

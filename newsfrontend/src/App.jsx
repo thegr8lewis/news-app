@@ -15,10 +15,11 @@ const App = () => {
       <div className="min-h-screen bg-gray-100">
         <Header language={language} setLanguage={setLanguage} />
         
-        <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <main className=" mx-auto py-6 sm:px-6 lg:px-8">
           <Routes>
             <Route path="/" element={<ArticleList language={language} onLanguageChange={setLanguage} />} />
             <Route path="/admin" element={<AdminDashboard language={language} onLanguageChange={setLanguage} />} />
+            {/* <Route path="/articles" element={<ArticleDetail language={language} onLanguageChange={setLanguage} />} /> */}
             <Route path="/articles/:id" element={<ArticleDetail language={language} onLanguageChange={setLanguage} />} />
           </Routes>
         </main>
@@ -28,3 +29,4 @@ const App = () => {
 };
 
 export default App;
+

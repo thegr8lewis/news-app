@@ -24,13 +24,15 @@ export const getArticles = async (language = 'en') => {
 };
 
 
-export const getArticleById = async (id) => {
-  const response = await fetch(`${API_BASE_URL}/api/articles/${id}/`);  // Note the trailing slash
+export const getArticleById = async (id, language = 'en') => {
+  const response = await fetch(`${API_BASE_URL}/api/articles/${id}/?language=${language}`);
   if (!response.ok) {
     throw new Error('Failed to fetch article');
   }
   return response.json();
 };
+
+
 
 export const createArticle = async (articleData) => {
   try {
@@ -108,6 +110,8 @@ export const deleteArticle = async (id) => {
     throw error;
   }
 };
+
+
 
 // Helper function to ensure proper URL formatting
 function ensureAbsoluteUrl(path) {
