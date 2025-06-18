@@ -329,7 +329,8 @@ const Header = ({ language, setLanguage }) => {
 
       {/* Main navigation */}
       <div className="border-b border-gray-300">
-        <div className="mx-auto px-4 sm:px-6 lg:px-8">
+       
+        <div className="w-[80vw] x-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-3">
             {/* Language selection */}
             <div className="flex items-center space-x-2">
@@ -362,7 +363,7 @@ const Header = ({ language, setLanguage }) => {
             </div>
 
             {/* Navigation links */}
-            <nav className="flex space-x-6 pr-150">
+            <nav className="flex space-x-6 pr-80">
               {loading ? (
                 <div className="flex space-x-6">
                   {[...Array(5)].map((_, i) => (
