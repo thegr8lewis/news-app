@@ -11,7 +11,7 @@ const FeaturedLiveBlog = ({ article, language, onEdit, onDelete, formatTimeAgo }
   if (!article) return null;
 
   return (
-    <div className="mb-8 border-b-1 border-black">
+    <div className="mb-8 border-b-1 border-gray-400">
       <div className="relative bg-gray-50 p-6 flex gap-6">
         {/* Left side: Content */}
         <div 
