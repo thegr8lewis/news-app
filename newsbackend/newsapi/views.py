@@ -212,8 +212,20 @@ class ArticleViewSet(viewsets.ModelViewSet):
         with default_storage.open(original_path, 'rb') as f:
             getattr(target_article, field_name).save(new_name, ContentFile(f.read()), save=False)
 
+    
     def retrieve(self, request, *args, **kwargs):
-        # This handles both /articles/<pk>/ and /articles/<pk>
         instance = self.get_object()
+        language = request.query_params.get('language', 'en')
+
+        # If the original is English and Somali is requested
+        if language == 'so' and instance.language == 'en':
+            translated = Article.objects.filter(original_article=instance, language='so').first()
+            if translated:
+                instance = translated
+
+        # If the article *is* Somali and English is requested (optional reverse)
+        elif language == 'en' and instance.language == 'so' and instance.original_article:
+            instance = instance.original_article
+
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
