@@ -13,6 +13,17 @@ from django.conf import settings
 import time
 from urllib.parse import quote
 
+
+
+from rest_framework.decorators import api_view
+
+
+@api_view(['GET'])
+def get_categories(request):
+    categories = [{'value': choice[0], 'label': choice[1]} for choice in Article.CATEGORY_CHOICES]
+    return Response(categories)
+
+
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer

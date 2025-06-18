@@ -39,6 +39,7 @@ export const createArticle = async (articleData) => {
     const formData = new FormData();
     formData.append('title', articleData.title);
     formData.append('content', articleData.content);
+    formData.append('category', articleData.category);
     if (articleData.image) formData.append('image', articleData.image);
     if (articleData.video) formData.append('video', articleData.video);
 
@@ -60,6 +61,19 @@ export const createArticle = async (articleData) => {
     };
   } catch (error) {
     console.error('Error creating article:', error);
+    throw error;
+  }
+};
+
+export const getCategories = async (language = 'en') => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/categories/?language=${language}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch categories');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching categories:', error);
     throw error;
   }
 };
