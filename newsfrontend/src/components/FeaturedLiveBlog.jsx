@@ -30,13 +30,6 @@ const FeaturedLiveBlog = ({ article, language, onEdit, onDelete, formatTimeAgo }
           </p>
           
           <div className="flex items-center space-x-4 text-sm text-gray-600 morion-font">
-            <div className="flex items-center">
-              <span className="bg-black text-white px-2 py-1 text-xs rounded mr-2">News</span>
-              <div className="flex items-center bg-black text-white px-2 py-1 rounded">
-                <div className="w-2 h-2 bg-red-500 rounded-full mr-1 animate-pulse"></div>
-                <span className="text-xs font-medium">LIVE</span>
-              </div>
-            </div>
           </div>
           
           {article.video && (
