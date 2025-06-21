@@ -40,6 +40,8 @@ export const createArticle = async (articleData) => {
     formData.append('title', articleData.title);
     formData.append('content', articleData.content);
     formData.append('category', articleData.category);
+    formData.append('language', articleData.language || 'en');
+    
     if (articleData.image) formData.append('image', articleData.image);
     if (articleData.video) formData.append('video', articleData.video);
 
@@ -53,12 +55,7 @@ export const createArticle = async (articleData) => {
       throw new Error(errorData.message || 'Failed to create article');
     }
 
-    const result = await response.json();
-    return {
-      ...result,
-      image: result.image ? ensureAbsoluteUrl(result.image) : null,
-      video: result.video ? ensureAbsoluteUrl(result.video) : null
-    };
+    return await response.json();
   } catch (error) {
     console.error('Error creating article:', error);
     throw error;

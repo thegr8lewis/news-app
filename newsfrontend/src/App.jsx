@@ -6,11 +6,13 @@ import ArticleList from './components/ArticleList';
 import AdminDashboard from './components/AdminDashboard';
 import Header from './components/Header';
 import ArticleDetail from './components/ArticleDetail';
+import { TranslationProvider } from './contexts/TranslationContext';
 
 const App = () => {
   const [language, setLanguage] = useState('en'); // Default to English
 
   return (
+    <TranslationProvider>
     <Router>
       <div className="min-h-screen bg-gray-100">
         <Header language={language} setLanguage={setLanguage} />
@@ -25,6 +27,7 @@ const App = () => {
         </main>
       </div>
     </Router>
+    </TranslationProvider>
   );
 };
 
