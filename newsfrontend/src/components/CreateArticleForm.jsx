@@ -358,4 +358,3 @@ const CreateArticleForm = ({ onArticleCreated }) => {
 };
 
 export default CreateArticleForm;
-

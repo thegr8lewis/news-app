@@ -53,6 +53,9 @@ CORS_ALLOWED_ORIGINS = [  # Fixed the typo (ORIGINS -> ORIGINS)
 # newsbackend/settings.py
 
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',  # This allows all requests without authentication
     ],
@@ -73,6 +76,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'newsapi',
     'rest_framework.authtoken',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

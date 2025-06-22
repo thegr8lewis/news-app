@@ -510,4 +510,3 @@ const AdminArticleList = ({ onArticleDeleted, onArticleUpdated }) => {
 
 export default AdminArticleList;
 
-
