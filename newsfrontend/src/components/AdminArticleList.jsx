@@ -1,6 +1,4 @@
 
-
-
 import { useEffect, useState } from 'react';
 import { getArticles, deleteArticle } from '../services/api';
 import EditArticleForm from './EditArticleForm';

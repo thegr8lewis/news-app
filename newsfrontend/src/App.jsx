@@ -23,6 +23,7 @@ const App = () => {
             <Route path="/admin" element={<AdminDashboard language={language} onLanguageChange={setLanguage} />} />
             {/* <Route path="/articles" element={<ArticleDetail language={language} onLanguageChange={setLanguage} />} /> */}
             <Route path="/articles/:id" element={<ArticleDetail language={language} onLanguageChange={setLanguage} />} />
+            <Route path="/admin/articles/:id"  element={<ArticleDetail language={language} onLanguageChange={setLanguage} />} />
           </Routes>
         </main>
       </div>
