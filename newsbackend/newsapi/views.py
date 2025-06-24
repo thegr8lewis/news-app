@@ -13,6 +13,124 @@ from urllib.parse import quote
 from rest_framework.decorators import api_view
 from django.utils import timezone
 from django.utils.dateformat import DateFormat
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+import logging
+from functools import lru_cache
+
+# Initialize logging
+logger = logging.getLogger(__name__)
+
+# Translation Analysis Model Setup
+try:
+    MODEL = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+    logger.info("Translation analysis model loaded successfully")
+except Exception as e:
+    MODEL = None
+    logger.error(f"Failed to load analysis model: {str(e)}")
+
+# Helper Functions for Translation Analysis
+def split_into_chunks(text, chunk_size=500):
+    """Split text into manageable chunks for analysis"""
+    if not text:
+        return []
+    return [text[i:i+chunk_size] for i in range(0, len(text), chunk_size)]
+
+@lru_cache(maxsize=100)
+def get_semantic_similarity(text1, text2):
+    """Calculate semantic similarity between two texts with caching"""
+    if not MODEL or not text1 or not text2:
+        return 0.0
+    
+    try:
+        embeddings = MODEL.encode([text1, text2])
+        return cosine_similarity([embeddings[0]], [embeddings[1]])[0][0]
+    except Exception as e:
+        logger.error(f"Similarity calculation failed: {str(e)}")
+        return 0.0
+
+def analyze_text_semantics(original, translated):
+    """Perform comprehensive semantic analysis between original and translated text"""
+    if not MODEL:
+        return None
+    
+    try:
+        # Prepare texts for comparison
+        original_chunks = split_into_chunks(original)
+        translated_chunks = split_into_chunks(translated)
+        min_chunks = min(len(original_chunks), len(translated_chunks))
+        
+        if min_chunks == 0:
+            return None
+
+        # Compare chunks
+        scores = []
+        problematic = []
+        
+        for i in range(min_chunks):
+            score = get_semantic_similarity(original_chunks[i], translated_chunks[i])
+            scores.append(score)
+            
+            if score < 0.7:  # Threshold for problematic sections
+                problematic.append({
+                    'chunk_id': i,
+                    'original': original_chunks[i],
+                    'translation': translated_chunks[i],
+                    'score': round(score, 2),
+                    'issue_type': classify_issue(score)
+                })
+
+        # Calculate weighted overall score
+        weights = [len(c) for c in original_chunks[:min_chunks]]
+        overall_score = np.average(scores[:min_chunks], weights=weights)
+        
+        return {
+            'score': overall_score,
+            'problematic_chunks': problematic,
+            'chunks_analyzed': min_chunks
+        }
+        
+    except Exception as e:
+        logger.error(f"Text analysis failed: {str(e)}")
+        return None
+
+def classify_issue(score):
+    """Classify the severity of translation issues"""
+    if score < 0.4:
+        return "critical"
+    elif score < 0.6:
+        return "major"
+    else:
+        return "minor"
+
+def generate_analysis_report(analysis_result, language):
+    """Generate a human-readable analysis report"""
+    if not analysis_result:
+        return None
+    
+    needs_review = (analysis_result['score'] < 0.75 or 
+                   len(analysis_result['problematic_chunks']) > 0)
+    
+    suggestions = []
+    if analysis_result['score'] < 0.7:
+        suggestions.append("Significant semantic differences detected")
+    elif analysis_result['score'] < 0.85:
+        suggestions.append("Moderate semantic differences detected")
+    
+    if analysis_result['problematic_chunks']:
+        count = len(analysis_result['problematic_chunks'])
+        suggestions.append(f"{count} problematic section{'' if count == 1 else 's'} requiring review")
+    
+    return {
+        'language': language,
+        'accuracy_score': round(analysis_result['score'], 2),
+        'confidence': 'high' if analysis_result['score'] > 0.85 else 'medium' if analysis_result['score'] > 0.7 else 'low',
+        'needs_human_review': needs_review,
+        'problematic_sections': analysis_result['problematic_chunks'],
+        'suggestions': suggestions if suggestions else ["Translation quality appears good"],
+        'chunks_analyzed': analysis_result['chunks_analyzed']
+    }
 
 @api_view(['POST'])
 def analyze_translation(request):
