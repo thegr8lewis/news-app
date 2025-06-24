@@ -14,6 +14,94 @@ from rest_framework.decorators import api_view
 from django.utils import timezone
 from django.utils.dateformat import DateFormat
 
+@api_view(['POST'])
+def analyze_translation(request):
+    """
+    Analyze translation quality and identify problematic sections
+    """
+    try:
+        original_text = request.data.get('original_text', '')
+        translated_text = request.data.get('translated_text', '')
+        language = request.data.get('language', 'so')
+        
+        if not original_text or not translated_text:
+            return Response({'error': 'Missing original or translated text'}, 
+                          status=status.HTTP_400_BAD_REQUEST)
+        
+        # Simple analysis (you can replace with more sophisticated NLP)
+        analysis = {
+            'accuracy_score': calculate_bleu_score(original_text, translated_text),
+            'problematic_sections': identify_problematic_sections(original_text, translated_text),
+            'needs_human_review': False,
+            'suggestions': []
+        }
+        
+        # Determine if human review is needed
+        if analysis['accuracy_score'] < 0.7 or len(analysis['problematic_sections']) > 3:
+            analysis['needs_human_review'] = True
+            
+        # Generate suggestions
+        analysis['suggestions'] = generate_suggestions(analysis)
+        
+        return Response(analysis)
+        
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+def calculate_bleu_score(original, translation):
+    """Calculate simple similarity score (0-1)"""
+    # This is a simplified version - consider using actual BLEU or other metrics
+    original_words = set(original.lower().split())
+    translated_words = set(translation.lower().split())
+    common_words = original_words & translated_words
+    return len(common_words) / max(len(original_words), 1)
+
+def identify_problematic_sections(original, translation):
+    """Identify potentially problematic translation sections"""
+    # Split into sentences
+    original_sents = [s.strip() for s in original.split('.') if s.strip()]
+    translated_sents = [s.strip() for s in translation.split('.') if s.strip()]
+    
+    problematic = []
+    min_length = min(len(original_sents), len(translated_sents))
+    
+    for i in range(min_length):
+        orig = original_sents[i].lower()
+        trans = translated_sents[i].lower()
+        
+        # Simple check for major differences
+        if len(orig.split()) > 5 and len(trans.split()) < 3:
+            problematic.append({
+                'id': f'section_{i}',
+                'text': translated_sents[i],
+                'original': original_sents[i],
+                'issue': 'Possible incomplete translation'
+            })
+        elif orig in trans:  # Untranslated text
+            problematic.append({
+                'id': f'section_{i}',
+                'text': translated_sents[i],
+                'original': original_sents[i],
+                'issue': 'Possible untranslated content'
+            })
+            
+    return problematic
+
+def generate_suggestions(analysis):
+    """Generate suggestions based on analysis"""
+    suggestions = []
+    
+    if analysis['accuracy_score'] < 0.7:
+        suggestions.append("The translation has significant accuracy issues that may require human review")
+        
+    if len(analysis['problematic_sections']) > 0:
+        suggestions.append(f"Review {len(analysis['problematic_sections'])} highlighted sections for accuracy")
+        
+    if not suggestions:
+        suggestions.append("Translation appears to be good quality")
+        
+    return suggestions
+
 @api_view(['GET'])
 def get_categories(request):
     categories = [{'value': choice[0], 'label': choice[1]} for choice in Article.CATEGORY_CHOICES]
