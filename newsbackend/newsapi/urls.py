@@ -13,3 +13,4 @@ urlpatterns = [
     path('articles/<int:pk>', ArticleViewSet.as_view({'get': 'retrieve'}), name='article-detail-no-slash'),
     path('categories/', get_categories, name='get-categories'),
 ]
+
