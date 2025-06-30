@@ -493,11 +493,13 @@ const ArticleList = () => {
                   />
                 </div>
 
+                {/* Right Sidebar */}
                 <RightSidebar 
-                  categorizedArticles={categorizedArticles}
-                  onEdit={setEditingArticle}
-                  onDelete={handleDelete}
-                  formatTimeAgo={translateTimeAgo}
+                    articles={filteredArticles}  // ✅ Pass the filtered array directly
+                    language={language}         // ✅ Don't forget to pass language
+                    onEdit={setEditingArticle}
+                    onDelete={handleDelete}
+                    formatTimeAgo={translateTimeAgo}
                 />
               </div>
             )}

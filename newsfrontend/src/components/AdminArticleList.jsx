@@ -488,21 +488,21 @@ const AdminArticleList = () => {
   };
 
   const handleDeleteArticle = async (articleId) => {
-    if (window.confirm('Are you sure you want to delete this article and all its translations?')) {
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/articles/${articleId}/`, {
-          method: 'DELETE',
-        });
-        if (response.ok) {
-          fetchArticles(); // Refresh the list
-        } else {
-          throw new Error('Failed to delete article');
-        }
-      } catch (err) {
-        alert('Error deleting article: ' + err.message);
+  if (window.confirm('Are you sure you want to delete this article and all its translations?')) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/articles/${articleId}/delete_article/`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        fetchArticles(); // Refresh the list
+      } else {
+        throw new Error('Failed to delete article');
       }
+    } catch (err) {
+      alert('Error deleting article: ' + err.message);
     }
-  };
+  }
+};
 
   const getLanguageName = (code) => {
     const names = {
