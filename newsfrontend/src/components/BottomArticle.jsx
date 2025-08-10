@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // // newsfrontend/src/components/BottomArticle.jsx
 // import ArticleAdminButtons from './ArticleAdminButtons';
 
@@ -60,6 +61,8 @@
 // };
 
 // export default BottomArticle;
+=======
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
 
 import { useNavigate } from 'react-router-dom';
 import ArticleAdminButtons from './ArticleAdminButtons';

@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
 import { useEffect, useState } from 'react';
 import { getArticles, deleteArticle } from '../services/api';
 import EditArticleForm from './EditArticleForm';
@@ -6,23 +10,48 @@ import FeaturedLiveBlog from './FeaturedLiveBlog';
 import GridArticles from './GridArticles';
 import BottomArticle from './BottomArticle';
 import RightSidebar from './RightSidebar';
+<<<<<<< HEAD
 
 const ArticleList = ({ language, onLanguageChange }) => {
   const [articles, setArticles] = useState([]);
+=======
+import { useTranslation } from '../contexts/TranslationContext';
+import { translateTimeAgo } from '../utils/translation';
+
+const ArticleList = () => {
+  const { language } = useTranslation();
+  const [allArticles, setAllArticles] = useState([]);
+  const [filteredArticles, setFilteredArticles] = useState([]);
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingArticle, setEditingArticle] = useState(null);
 
   useEffect(() => {
     fetchArticles();
+<<<<<<< HEAD
   }, [language]);
+=======
+  }, []);
+
+  useEffect(() => {
+    // Filter articles whenever language changes
+    if (allArticles.length > 0) {
+      filterArticlesByLanguage();
+    }
+  }, [language, allArticles]);
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
 
   const fetchArticles = async () => {
     try {
       setLoading(true);
       setError(null);
       const data = await getArticles();
+<<<<<<< HEAD
       setArticles(data);
+=======
+      setAllArticles(data);
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
     } catch (err) {
       setError(err.message || 'Failed to load articles');
       console.error('Fetch error:', err);
@@ -31,6 +60,7 @@ const ArticleList = ({ language, onLanguageChange }) => {
     }
   };
 
+<<<<<<< HEAD
   const filteredArticles = articles.filter(article => {
     if (language === 'so') {
       return article.language === 'so';
@@ -40,6 +70,29 @@ const ArticleList = ({ language, onLanguageChange }) => {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this article?')) return;
+=======
+  const filterArticlesByLanguage = () => {
+    // First try to get articles in the selected language
+    const langArticles = allArticles.filter(article => article.language === language);
+    
+    // If none found and not English, show English articles as fallback
+    if (langArticles.length === 0 && language !== 'en') {
+      const englishArticles = allArticles.filter(article => article.language === 'en');
+      setFilteredArticles(englishArticles);
+    } else {
+      setFilteredArticles(langArticles);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const confirmMessage = 
+      language === 'so' ? 'Ma hubtaa inaad rabto inaad tirtirto warqadan?' :
+      language === 'sw' ? 'Una uhakika unataka kufuta makala hii?' :
+      'Are you sure you want to delete this article?';
+    
+    if (!window.confirm(confirmMessage)) return;
+    
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
     try {
       await deleteArticle(id);
       await fetchArticles();
@@ -54,6 +107,7 @@ const ArticleList = ({ language, onLanguageChange }) => {
     fetchArticles();
   };
 
+<<<<<<< HEAD
   const formatTimeAgo = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -70,6 +124,19 @@ const ArticleList = ({ language, onLanguageChange }) => {
       return `${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
     }
   };
+=======
+  // Get featured articles (first 6 for main content)
+  const featuredArticles = filteredArticles.slice(0, 6);
+
+  // Group articles by categories for the sidebar
+  const categorizedArticles = filteredArticles.reduce((acc, article) => {
+    if (!acc[article.category]) {
+      acc[article.category] = [];
+    }
+    acc[article.category].push(article);
+    return acc;
+  }, {});
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
 
   return (
     <>
@@ -119,14 +186,30 @@ const ArticleList = ({ language, onLanguageChange }) => {
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               />
             </svg>
+<<<<<<< HEAD
             <p className="mt-2 text-gray-600 morion-font">Loading articles...</p>
+=======
+            <p className="mt-2 text-gray-600 morion-font">
+              {language === 'so' ? 'Soo dejinta wararka...' : 
+               language === 'sw' ? 'Inapakia makala...' : 
+               'Loading articles...'}
+            </p>
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
           </div>
         )}
 
         {/* Error State */}
         {error && (
           <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+<<<<<<< HEAD
             <p className="text-sm text-red-700 morion-font">Error: {error}</p>
+=======
+            <p className="text-sm text-red-700 morion-font">
+              {language === 'so' ? 'Khalad: ' : 
+               language === 'sw' ? 'Hitilafu: ' : 
+               'Error: '}{error}
+            </p>
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
           </div>
         )}
 
@@ -134,7 +217,10 @@ const ArticleList = ({ language, onLanguageChange }) => {
         <Transition show={!!editingArticle}>
           <div className="fixed inset-0 z-50 overflow-y-auto">
             <div className="flex min-h-screen items-center justify-center p-4 text-center sm:p-0">
+<<<<<<< HEAD
               {/* Backdrop */}
+=======
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
               <Transition.Child
                 enter="ease-out duration-300"
                 enterFrom="opacity-0"
@@ -149,7 +235,10 @@ const ArticleList = ({ language, onLanguageChange }) => {
                 />
               </Transition.Child>
 
+<<<<<<< HEAD
               {/* Modal Content */}
+=======
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
               <Transition.Child
                 enter="ease-out duration-300"
                 enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -164,7 +253,15 @@ const ArticleList = ({ language, onLanguageChange }) => {
                     className="absolute top-4 right-4 text-gray-400 hover:text-gray-500"
                     onClick={() => setEditingArticle(null)}
                   >
+<<<<<<< HEAD
                     <span className="sr-only">Close</span>
+=======
+                    <span className="sr-only">
+                      {language === 'so' ? 'Xidh' : 
+                       language === 'sw' ? 'Funga' : 
+                       'Close'}
+                    </span>
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -187,13 +284,29 @@ const ArticleList = ({ language, onLanguageChange }) => {
           <div className="w-[80vw] mx-auto">
             {filteredArticles.length === 0 ? (
               <div className="text-center py-12">
+<<<<<<< HEAD
                 <p className="text-gray-500 text-lg morion-font">No articles found. Create one to get started!</p>
+=======
+                <p className="text-gray-500 text-lg morion-font">
+                  {language === 'so' ? 'Ma jiro warar la heli karo.' : 
+                   language === 'sw' ? 'Hakuna makala zilizopatikana.' : 
+                   'No articles found.'}
+                </p>
+                {language !== 'en' && (
+                  <p className="text-gray-500 text-sm mt-2">
+                    {language === 'so' ? 'Laga soo bandhigayo wararka Ingiriisiga' : 
+                     language === 'sw' ? 'Inaonyesha makala ya Kiingereza' : 
+                     'Showing English articles'}
+                  </p>
+                )}
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
               </div>
             ) : (
               <div className="flex gap-0 p-0 m-0">
                 {/* Left Column - Main Content */}
                 <div className="flex-1 p-0 m-0">
                   <FeaturedLiveBlog 
+<<<<<<< HEAD
                     article={filteredArticles[0]} 
                     language={language}
                     onEdit={setEditingArticle}
@@ -224,6 +337,36 @@ const ArticleList = ({ language, onLanguageChange }) => {
                   onEdit={setEditingArticle}
                   onDelete={handleDelete}
                   formatTimeAgo={formatTimeAgo}
+=======
+                    article={featuredArticles[0]} 
+                    onEdit={setEditingArticle}
+                    onDelete={handleDelete}
+                    formatTimeAgo={translateTimeAgo}
+                  />
+                  
+                  <GridArticles 
+                    articles={featuredArticles.slice(1, 5)} 
+                    onEdit={setEditingArticle}
+                    onDelete={handleDelete}
+                    formatTimeAgo={translateTimeAgo}
+                  />
+                  
+                  <BottomArticle 
+                    article={featuredArticles[5]} 
+                    onEdit={setEditingArticle}
+                    onDelete={handleDelete}
+                    formatTimeAgo={translateTimeAgo}
+                  />
+                </div>
+
+                {/* Right Sidebar */}
+                <RightSidebar 
+                    articles={filteredArticles}  // ✅ Pass the filtered array directly
+                    language={language}         // ✅ Don't forget to pass language
+                    onEdit={setEditingArticle}
+                    onDelete={handleDelete}
+                    formatTimeAgo={translateTimeAgo}
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
                 />
               </div>
             )}

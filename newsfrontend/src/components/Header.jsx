@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 // import { useState, useEffect } from 'react';
 // import { getCategories } from '../services/api'; // You'll need to create this API function
 
@@ -174,6 +175,21 @@ const Header = ({ language, setLanguage }) => {
   const [error, setError] = useState(null);
 
   // Translation mappings
+=======
+
+import { useState, useEffect } from 'react';
+import { getCategories } from '../services/api';
+import { useTranslation } from '../contexts/TranslationContext';
+
+const Header = () => {
+  const { language, setLanguage, availableLanguages } = useTranslation();
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+
+  // Enhanced translations with all supported languages
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
   const translations = {
     en: {
       diaspora: "Diaspora",
@@ -192,7 +208,13 @@ const Header = ({ language, setLanguage }) => {
         technology: "Technology",
         health: "Health",
         business: "Business"
+<<<<<<< HEAD
       }
+=======
+      },
+      loading: "Loading...",
+      failedToLoad: "Failed to load categories"
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
     },
     so: {
       diaspora: "Diaspora",
@@ -211,7 +233,34 @@ const Header = ({ language, setLanguage }) => {
         technology: "Teknoolojiyada",
         health: "Caafimaadka",
         business: "Ganacsiga"
+<<<<<<< HEAD
       }
+=======
+      },
+      loading: "Soo dejinta...",
+      failedToLoad: "Khalad soo dejinta qaybaha"
+    },
+    sw: {
+      diaspora: "Wakimbizi",
+      africa: "Afrika",
+      kenya: "Kenya",
+      uganda: "Uganda",
+      tanzania: "Tanzania",
+      epaper: "Gazeti la Mtandaoni",
+      buriani: "Buriani",
+      search: "Tafuta",
+      more: "Zaidi",
+      categories: {
+        politics: "Siasa",
+        sports: "Michezo",
+        entertainment: "Burudani",
+        technology: "Teknolojia",
+        health: "Afya",
+        business: "Biashara"
+      },
+      loading: "Inapakia...",
+      failedToLoad: "Hitilafu ya kupakia aina"
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
     }
   };
 
@@ -219,23 +268,40 @@ const Header = ({ language, setLanguage }) => {
     const fetchCategories = async () => {
       try {
         setLoading(true);
+<<<<<<< HEAD
         const data = await getCategories();
         
         const translatedCategories = data.map(cat => ({
           value: cat.value,
           label: translations[language].categories[cat.value] || cat.label
+=======
+        const data = await getCategories(language); // Pass language to API
+        
+        const translatedCategories = data.map(cat => ({
+          ...cat,
+          label: translations[language]?.categories?.[cat.value] || cat.label
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
         }));
         
         setCategories(translatedCategories);
         setError(null);
       } catch (err) {
         console.error('Error fetching categories:', err);
+<<<<<<< HEAD
         setError('Failed to load categories');
         // Fallback to default categories
         setCategories([
           { value: 'politics', label: translations[language].categories.politics },
           { value: 'sports', label: translations[language].categories.sports },
           { value: 'business', label: translations[language].categories.business }
+=======
+        setError(translations[language]?.failedToLoad || 'Failed to load categories');
+        // Fallback to default categories
+        setCategories([
+          { value: 'politics', label: translations[language]?.categories?.politics || 'Politics' },
+          { value: 'sports', label: translations[language]?.categories?.sports || 'Sports' },
+          { value: 'business', label: translations[language]?.categories?.business || 'Business' }
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
         ]);
       } finally {
         setLoading(false);
@@ -245,12 +311,30 @@ const Header = ({ language, setLanguage }) => {
     fetchCategories();
   }, [language]);
 
+<<<<<<< HEAD
   return (
     <header className="bg-white">
+=======
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isLanguageDropdownOpen && !event.target.closest('.language-dropdown')) {
+        setIsLanguageDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isLanguageDropdownOpen]);
+
+  return (
+    <header className="bg-white sticky top-0 z-50">
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
       {/* Country navigation */}
       <div className="border-b border-gray-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center space-x-8 py-2">
+<<<<<<< HEAD
             <span className="text-sm text-gray-700 hover:text-black cursor-pointer font-medium">
               {translations[language].diaspora}
             </span>
@@ -266,6 +350,20 @@ const Header = ({ language, setLanguage }) => {
             <span className="text-sm text-gray-700 hover:text-black cursor-pointer font-medium">
               {translations[language].tanzania}
             </span>
+=======
+            {['diaspora', 'africa', 'kenya', 'uganda', 'tanzania'].map((item) => (
+              <span 
+                key={item}
+                className={`text-sm cursor-pointer font-medium ${
+                  item === 'kenya' 
+                    ? 'font-bold text-black border-b-2 border-blue-600' 
+                    : 'text-gray-700 hover:text-black'
+                }`}
+              >
+                {translations[language]?.[item]}
+              </span>
+            ))}
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
           </div>
         </div>
       </div>
@@ -276,13 +374,24 @@ const Header = ({ language, setLanguage }) => {
           <div className="flex justify-between items-center py-4">
             {/* Left side - Menu and ePaper */}
             <div className="flex items-center space-x-4">
+<<<<<<< HEAD
               <button className="p-1 hover:bg-gray-100 rounded">
+=======
+              <button 
+                className="p-1 hover:bg-gray-100 rounded"
+                aria-label={language === 'so' ? 'Menu' : language === 'sw' ? 'Menyu' : 'Menu'}
+              >
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
                 <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
               <span className="text-sm text-gray-700 font-medium">
+<<<<<<< HEAD
                 {translations[language].epaper} | {translations[language].buriani}
+=======
+                {translations[language]?.epaper} | {translations[language]?.buriani}
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
               </span>
             </div>
 
@@ -292,16 +401,28 @@ const Header = ({ language, setLanguage }) => {
                 src="https://nation.africa/resource/crblob/5006890/1a8f8a473903060ef417dad0ba7701ac/dn-logo-svg-data.svg" 
                 alt="Daily Nation" 
                 className="h-15"
+<<<<<<< HEAD
+=======
+                loading="lazy"
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
               />
             </div>
 
             {/* Right side - Search and User */}
             <div className="flex items-center space-x-4">
+<<<<<<< HEAD
               <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 px-2 py-1 rounded">
+=======
+              <button 
+                className="flex items-center space-x-2 hover:bg-gray-100 px-2 py-1 rounded"
+                aria-label={translations[language]?.search}
+              >
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
                 <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <span className="text-sm font-medium text-gray-800">
+<<<<<<< HEAD
                   {translations[language].search}
                 </span>
               </div>
@@ -311,24 +432,45 @@ const Header = ({ language, setLanguage }) => {
                   <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                 </svg>
               </div>
+=======
+                  {translations[language]?.search}
+                </span>
+              </button>
+              <span className="text-sm font-medium text-gray-800">Lewis Momanyi</span>
+              <button className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700">
+                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                </svg>
+              </button>
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
             </div>
           </div>
         </div>
         
         {/* Custom bottom borders */}
         <div className="absolute bottom-0 left-0 right-0">
+<<<<<<< HEAD
           <div className="h-[1px] bg-black"></div>
           <div className="h-1 bg-transparent"></div>
           <div className="h-[1px] bg-black"></div>
           <div className="h-1 bg-transparent"></div>
           <div className="h-[1px] bg-black"></div>
           <div className="h-1 bg-transparent"></div>
+=======
+          {[...Array(3)].map((_, i) => (
+            <div key={`border-${i}`} className="flex flex-col">
+              <div className="h-[1px] bg-black"></div>
+              <div className="h-1 bg-transparent"></div>
+            </div>
+          ))}
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
           <div className="h-[2px] bg-sky-700"></div>
         </div>
       </div>
 
       {/* Main navigation */}
       <div className="border-b border-gray-300">
+<<<<<<< HEAD
        
         <div className="w-[80vw] x-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-3">
@@ -360,6 +502,66 @@ const Header = ({ language, setLanguage }) => {
                 />
                 So
               </button>
+=======
+        <div className="w-[80vw] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between py-3">
+            {/* Language selection dropdown */}
+            <div className="relative language-dropdown">
+              <button 
+                onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                className="flex items-center space-x-2 px-3 py-1.5 text-sm rounded-md font-medium hover:bg-gray-100"
+                aria-expanded={isLanguageDropdownOpen}
+                aria-haspopup="true"
+              >
+                <img 
+                  src={availableLanguages.find(lang => lang.code === language)?.flag} 
+                  alt="" 
+                  className="h-4 w-auto"
+                  aria-hidden="true"
+                />
+                <span>{availableLanguages.find(lang => lang.code === language)?.name}</span>
+                <svg 
+                  className={`w-4 h-4 transition-transform ${isLanguageDropdownOpen ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {isLanguageDropdownOpen && (
+                <div 
+                  className="absolute z-10 mt-1 w-48 bg-white rounded-md shadow-lg"
+                  role="menu"
+                >
+                  <div className="py-1">
+                    {availableLanguages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          setLanguage(lang.code);
+                          setIsLanguageDropdownOpen(false);
+                        }}
+                        className={`flex items-center px-4 py-2 text-sm w-full text-left ${
+                          language === lang.code ? 'bg-gray-100 font-bold' : 'text-gray-700 hover:bg-gray-50'
+                        }`}
+                        role="menuitem"
+                      >
+                        <img 
+                          src={lang.flag} 
+                          alt="" 
+                          className="h-4 w-auto mr-2"
+                          aria-hidden="true"
+                        />
+                        {lang.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
             </div>
 
             {/* Navigation links */}
@@ -367,7 +569,15 @@ const Header = ({ language, setLanguage }) => {
               {loading ? (
                 <div className="flex space-x-6">
                   {[...Array(5)].map((_, i) => (
+<<<<<<< HEAD
                     <div key={i} className="h-4 w-16 bg-gray-200 animate-pulse rounded"></div>
+=======
+                    <div 
+                      key={`skeleton-${i}`} 
+                      className="h-4 w-16 bg-gray-200 animate-pulse rounded"
+                      aria-label={translations[language]?.loading}
+                    />
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
                   ))}
                 </div>
               ) : error ? (
@@ -388,7 +598,11 @@ const Header = ({ language, setLanguage }) => {
                     className="text-sm font-bold text-black hover:text-black hover:underline transition-all flex items-center"
                   >
                     <span className="mr-1 text-blue-600">•••</span>
+<<<<<<< HEAD
                     {translations[language].more}
+=======
+                    {translations[language]?.more}
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
                   </a>
                 </>
               )}

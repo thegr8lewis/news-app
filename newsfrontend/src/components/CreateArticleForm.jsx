@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import { useState } from 'react';
 // import { createArticle } from '../services/api';
 
@@ -283,6 +284,8 @@
 
 // export default CreateArticleForm;
 
+=======
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
 import { useState } from 'react';
 import { createArticle } from '../services/api';
 
@@ -642,4 +645,8 @@ const CreateArticleForm = ({ onArticleCreated }) => {
   );
 };
 
+<<<<<<< HEAD
 export default CreateArticleForm;
+=======
+export default CreateArticleForm;
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
 import { useNavigate } from 'react-router-dom';
 import ArticleAdminButtons from './ArticleAdminButtons';
 
@@ -19,7 +22,11 @@ const RightSidebar = ({ articles, language, onEdit, onDelete, formatTimeAgo }) =
       {/* Video Section */}
       {videoArticle && (
         <div className="mb-8">
+<<<<<<< HEAD
           <div className="bg-white text-red-600 text-xs font-bold px-2 py-1 inline-block morion-font mb-3">
+=======
+          <div className="bg-white text-red-600 text-xs px-2 py-1 inline-block morion-font mb-3">
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
             VIDEO
           </div>
           
@@ -45,7 +52,11 @@ const RightSidebar = ({ articles, language, onEdit, onDelete, formatTimeAgo }) =
                 {videoArticle.title.split(' ').slice(0, 8).join(' ')}...
               </div>
             </div>
+<<<<<<< HEAD
             <h3 className="text-lg font-bold text-black morion-font line-clamp-2">
+=======
+            <h3 className="text-lg text-black morion-font line-clamp-2">
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
               {videoArticle.title}
             </h3>
 
@@ -69,7 +80,11 @@ const RightSidebar = ({ articles, language, onEdit, onDelete, formatTimeAgo }) =
 
       {/* Latest Section */}
       <div>
+<<<<<<< HEAD
         <div className="bg-white text-red-600 text-xs font-bold px-2 py-1 inline-block morion-font mb-4">
+=======
+        <div className="bg-white text-red-600 text-xs px-2 py-1 inline-block morion-font mb-4">
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
           LATEST
         </div>
         
@@ -82,7 +97,11 @@ const RightSidebar = ({ articles, language, onEdit, onDelete, formatTimeAgo }) =
             >
                 <div className="border-b border-gray-400 ">
 
+<<<<<<< HEAD
                 {/* Left side: Title and Content */}              <h3 className="text-lg font-bold text-black morion-font mb-2 line-clamp-2">
+=======
+                {/* Left side: Title and Content */}              <h3 className="text-lg text-black morion-font mb-2 line-clamp-2">
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
                 {article.title}
               </h3>
               
@@ -116,7 +135,11 @@ const RightSidebar = ({ articles, language, onEdit, onDelete, formatTimeAgo }) =
       {/* Live Blog Section */}
       <div className="mt-8 border-t border-gray-200 pt-6">
         <h3 
+<<<<<<< HEAD
           className="text-lg font-bold text-black morion-font mb-4 cursor-pointer hover:opacity-90 transition-opacity"
+=======
+          className="text-lg text-black morion-font mb-4 cursor-pointer hover:opacity-90 transition-opacity"
+>>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
           onClick={() => articles[0] && handleArticleClick(articles[0].id)}
         >
           Live Blog: {articles[0]?.title}
