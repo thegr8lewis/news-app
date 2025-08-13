@@ -16,6 +16,10 @@ from django.utils import timezone
 from django.utils.dateformat import DateFormat
 import logging
 from functools import lru_cache
+from django.http import HttpResponse, Http404
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+import mimetypes
 
 # Initialize logging
 logger = logging.getLogger(__name__)
@@ -468,3 +472,34 @@ class ArticleViewSet(viewsets.ModelViewSet):
         else:
             # English format: June 21, 2023, 2:30 PM
             return date.strftime('%B %d, %Y, %I:%M %p')
+
+@require_http_methods(["GET"])
+@csrf_exempt
+def serve_media(request, path):
+    """Custom media file serving with proper CORS headers"""
+    try:
+        file_path = os.path.join(settings.MEDIA_ROOT, path)
+        
+        if not os.path.exists(file_path):
+            raise Http404("Media file not found")
+            
+        # Get the file content type
+        content_type, _ = mimetypes.guess_type(file_path)
+        if content_type is None:
+            content_type = 'application/octet-stream'
+            
+        with open(file_path, 'rb') as f:
+            response = HttpResponse(f.read(), content_type=content_type)
+            
+        # Add comprehensive CORS headers
+        response['Access-Control-Allow-Origin'] = '*'
+        response['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+        response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        response['Cross-Origin-Resource-Policy'] = 'cross-origin'
+        response['Cross-Origin-Embedder-Policy'] = 'unsafe-none'
+        
+        return response
+        
+    except Exception as e:
+        logger.error(f"Media serving error: {str(e)}")
+        raise Http404("Media file not found")
