@@ -9,6 +9,13 @@ const Header = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState('Musili Andrew');
+
+  const users = [
+    { name: 'Musili Andrew', initials: 'MA', color: 'bg-blue-600' },
+    { name: 'Lewis Nyakaru', initials: 'LN', color: 'bg-green-600' }
+  ];
 
   // Enhanced translations with all supported languages
   const translations = {
@@ -113,11 +120,14 @@ const Header = () => {
       if (isLanguageDropdownOpen && !event.target.closest('.language-dropdown')) {
         setIsLanguageDropdownOpen(false);
       }
+      if (isUserDropdownOpen && !event.target.closest('.user-dropdown')) {
+        setIsUserDropdownOpen(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isLanguageDropdownOpen]);
+  }, [isLanguageDropdownOpen, isUserDropdownOpen]);
 
   return (
     <header className="bg-white sticky top-0 z-50">
@@ -183,12 +193,60 @@ const Header = () => {
                   {translations[language]?.search}
                 </span>
               </button>
-              <span className="hidden md:inline text-sm font-medium text-gray-800">Musili Andrew</span>
-              <button className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700">
-                <svg className="w-3 h-3 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                </svg>
-              </button>
+              {/* User selection dropdown */}
+              <div className="relative user-dropdown">
+                <button
+                  onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                  className="flex items-center space-x-2 hover:bg-gray-50 px-2 py-1 rounded-md transition-colors"
+                  aria-expanded={isUserDropdownOpen}
+                  aria-haspopup="true"
+                >
+                  <span className="hidden md:inline text-sm font-medium text-gray-800">{selectedUser}</span>
+                  <div className={`w-6 h-6 sm:w-8 sm:h-8 ${users.find(u => u.name === selectedUser)?.color} rounded-full flex items-center justify-center hover:opacity-90 transition-opacity`}>
+                    <span className="text-white text-xs sm:text-sm font-bold">
+                      {users.find(u => u.name === selectedUser)?.initials}
+                    </span>
+                  </div>
+                  <svg 
+                    className={`w-3 h-3 transition-transform ${isUserDropdownOpen ? 'rotate-180' : ''}`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                {isUserDropdownOpen && (
+                  <div 
+                    className="absolute right-0 z-20 mt-1 w-48 bg-white rounded-md shadow-lg border border-gray-200"
+                    role="menu"
+                  >
+                    <div className="py-1">
+                      {users.map((user) => (
+                        <button
+                          key={user.name}
+                          onClick={() => {
+                            setSelectedUser(user.name);
+                            setIsUserDropdownOpen(false);
+                          }}
+                          className={`flex items-center px-4 py-2 text-sm w-full text-left transition-colors ${
+                            selectedUser === user.name 
+                              ? 'bg-gray-100 font-semibold' 
+                              : 'text-gray-700 hover:bg-gray-50'
+                          }`}
+                          role="menuitem"
+                        >
+                          <div className={`w-6 h-6 ${user.color} rounded-full flex items-center justify-center mr-3`}>
+                            <span className="text-white text-xs font-bold">{user.initials}</span>
+                          </div>
+                          {user.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
