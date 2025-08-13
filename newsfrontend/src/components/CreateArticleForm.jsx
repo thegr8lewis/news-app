@@ -8,6 +8,7 @@ const CreateArticleForm = ({ onArticleCreated }) => {
     image: null,
     video: null,
     category: 'politics',
+    language: 'en',
   });
   const [previewImage, setPreviewImage] = useState(null);
   const [previewVideo, setPreviewVideo] = useState(null);
@@ -90,6 +91,7 @@ const CreateArticleForm = ({ onArticleCreated }) => {
         image: null,
         video: null,
         category: 'politics',
+        language: 'en',
       });
       setPreviewImage(null);
       setPreviewVideo(null);

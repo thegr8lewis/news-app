@@ -46,6 +46,15 @@ export const createArticle = async (articleData, onTranslationProgress) => {
     if (articleData.image) formData.append('image', articleData.image);
     if (articleData.video) formData.append('video', articleData.video);
 
+    console.log('Sending article data:', {
+      title: articleData.title,
+      content: articleData.content,
+      category: articleData.category,
+      language: articleData.language || 'en',
+      hasImage: !!articleData.image,
+      hasVideo: !!articleData.video
+    });
+
     const response = await fetch(`${API_BASE_URL}/api/articles/`, {
       method: 'POST',
       body: formData,
@@ -53,7 +62,8 @@ export const createArticle = async (articleData, onTranslationProgress) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to create article');
+      console.error('Backend error response:', errorData);
+      throw new Error(errorData.message || errorData.detail || `Server error: ${response.status}`);
     }
 
     const result = await response.json();
