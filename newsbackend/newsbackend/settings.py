@@ -60,6 +60,13 @@ CORS_EXPOSE_HEADERS = [
     'content-disposition',
 ]
 
+# Security headers for better CORS handling
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+SECURE_REFERRER_POLICY = "same-origin"
+
+# Additional headers for media files
+CORS_PREFLIGHT_MAX_AGE = 86400
+
 
 # CORS Settings
 CORS_ALLOWED_ORIGINS = [
