@@ -7,4 +7,7 @@ npm ci
 npm run build
 
 # Copy _redirects file to dist directory for proper routing
-cp _redirects dist/_redirects
+cp public/_redirects dist/_redirects
+
+# Ensure all routes fall back to index.html
+echo "/*    /index.html   200" > dist/_redirects
