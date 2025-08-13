@@ -20,7 +20,7 @@ const App = () => {
           <main className="mx-auto py-4 sm:py-6">
             <Routes>
               <Route path="/" element={<ArticleList language={language} onLanguageChange={setLanguage} />} />
-              <Route path="/admin" element={<AdminDashboard language={language} onLanguageChange={setLanguage} />} />
+              <Route path="/admin" element={<div className="p-8"><h1 className="text-2xl font-bold">Simple Admin Page</h1><p>Admin dashboard is loading...</p></div>} />
               <Route path="/test" element={<div><h1>Test Route Works!</h1><p>If you see this, routing is working.</p></div>} />
               <Route path="/articles/:id" element={<ArticleDetail language={language} onLanguageChange={setLanguage} />} />
               <Route path="/admin/articles" element={<AdminArticleList />} />
