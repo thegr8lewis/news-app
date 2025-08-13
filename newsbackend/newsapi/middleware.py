@@ -10,6 +10,16 @@ class MediaCORSMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        # Handle preflight OPTIONS requests for media files
+        if request.method == 'OPTIONS' and request.path.startswith('/media/'):
+            response = HttpResponse()
+            response['Access-Control-Allow-Origin'] = '*'
+            response['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+            response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+            response['Cross-Origin-Resource-Policy'] = 'cross-origin'
+            response['Cross-Origin-Embedder-Policy'] = 'unsafe-none'
+            return response
+        
         response = self.get_response(request)
         
         # Add CORS headers to media files

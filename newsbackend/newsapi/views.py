@@ -473,10 +473,20 @@ class ArticleViewSet(viewsets.ModelViewSet):
             # English format: June 21, 2023, 2:30 PM
             return date.strftime('%B %d, %Y, %I:%M %p')
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "OPTIONS"])
 @csrf_exempt
 def serve_media(request, path):
     """Custom media file serving with proper CORS headers"""
+    # Handle OPTIONS preflight requests
+    if request.method == 'OPTIONS':
+        response = HttpResponse()
+        response['Access-Control-Allow-Origin'] = '*'
+        response['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+        response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        response['Cross-Origin-Resource-Policy'] = 'cross-origin'
+        response['Cross-Origin-Embedder-Policy'] = 'unsafe-none'
+        return response
+    
     try:
         logger.info(f"Requested media path: {path}")
         logger.info(f"MEDIA_ROOT: {settings.MEDIA_ROOT}")
