@@ -1,17 +1,10 @@
-<<<<<<< HEAD
-// newsfrontend/src/utils/translation.js
-=======
-
 // src/utils/translation.js
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
 const API_ENDPOINTS = [
   "https://libretranslate.de/translate",
   "https://translate.argosopentech.com/translate",
   "https://libretranslate.com/translate"
 ];
 
-<<<<<<< HEAD
-=======
 // Language mapping for translation services
 const LANGUAGE_MAPPING = {
   'so': 'so',   // Somali
@@ -21,8 +14,6 @@ const LANGUAGE_MAPPING = {
 
 // Translation cache configuration
 const CACHE_EXPIRY_DAYS = 7; // Cache translations for 7 days
-
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
 // Split text into chunks of max 500 characters at sentence boundaries
 const chunkText = (text, maxLength = 500) => {
   if (!text) return [];
@@ -58,25 +49,15 @@ const hashString = (str) => {
 
 const cacheTranslation = (text, targetLang, translatedText) => {
   const cacheKey = `translation_${targetLang}_${hashString(text)}`;
-<<<<<<< HEAD
-  localStorage.setItem(cacheKey, translatedText);
-=======
   const cacheData = {
     text: translatedText,
     timestamp: Date.now()
   };
   localStorage.setItem(cacheKey, JSON.stringify(cacheData));
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
 };
 
 const getCachedTranslation = (text, targetLang) => {
   const cacheKey = `translation_${targetLang}_${hashString(text)}`;
-<<<<<<< HEAD
-  return localStorage.getItem(cacheKey);
-};
-
-export const translateText = async (text, targetLang = 'so') => {
-=======
   const cachedData = localStorage.getItem(cacheKey);
   
   if (!cachedData) return null;
@@ -101,7 +82,6 @@ export const translateText = async (text, targetLang = 'so') => {
 export const translateText = async (text, targetLang = 'so') => {
   if (!text || !LANGUAGE_MAPPING[targetLang]) return text;
   
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
   // Check cache first
   const cached = getCachedTranslation(text, targetLang);
   if (cached) return cached;
@@ -114,11 +94,7 @@ export const translateText = async (text, targetLang = 'so') => {
     const translationData = {
       q: chunk,
       source: 'en',
-<<<<<<< HEAD
-      target: targetLang
-=======
       target: LANGUAGE_MAPPING[targetLang]
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
     };
 
     const headers = {
@@ -132,12 +108,8 @@ export const translateText = async (text, targetLang = 'so') => {
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: headers,
-<<<<<<< HEAD
-          body: JSON.stringify(translationData)
-=======
           body: JSON.stringify(translationData),
           timeout: 5000 // 5 second timeout
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
         });
 
         if (response.ok) {
@@ -154,11 +126,6 @@ export const translateText = async (text, targetLang = 'so') => {
   }
 
   // Cache the translation
-<<<<<<< HEAD
-  cacheTranslation(text, targetLang, translatedText.trim());
-  return translatedText.trim();
-};
-=======
   const finalTranslation = translatedText.trim();
   cacheTranslation(text, targetLang, finalTranslation);
   return finalTranslation;
@@ -281,8 +248,6 @@ export const formatNumber = (number, language) => {
   }
 };
 
-
-
 export const cleanTranslationCache = () => {
   const now = Date.now();
   const expiryMs = CACHE_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
@@ -310,9 +275,7 @@ export const cleanTranslationCache = () => {
   });
 };
 
-
 // Initialize cache cleaning on load
 if (typeof window !== 'undefined') {
   cleanTranslationCache();
 }
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9

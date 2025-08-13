@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
 import { useNavigate } from 'react-router-dom';
 import ArticleAdminButtons from './ArticleAdminButtons';
 
@@ -18,15 +14,11 @@ const RightSidebar = ({ articles, language, onEdit, onDelete, formatTimeAgo }) =
   const latestArticles = articles.slice(-3).reverse();
 
   return (
-    <div className="w-80 flex-shrink-0 border-l border-gray-500 p-4">
+    <div className="w-full lg:w-80 flex-shrink-0 lg:border-l border-gray-500 p-4 mt-8 lg:mt-0">
       {/* Video Section */}
       {videoArticle && (
         <div className="mb-8">
-<<<<<<< HEAD
-          <div className="bg-white text-red-600 text-xs font-bold px-2 py-1 inline-block morion-font mb-3">
-=======
           <div className="bg-white text-red-600 text-xs px-2 py-1 inline-block morion-font mb-3">
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
             VIDEO
           </div>
           
@@ -52,11 +44,7 @@ const RightSidebar = ({ articles, language, onEdit, onDelete, formatTimeAgo }) =
                 {videoArticle.title.split(' ').slice(0, 8).join(' ')}...
               </div>
             </div>
-<<<<<<< HEAD
-            <h3 className="text-lg font-bold text-black morion-font line-clamp-2">
-=======
             <h3 className="text-lg text-black morion-font line-clamp-2">
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
               {videoArticle.title}
             </h3>
 
@@ -80,32 +68,24 @@ const RightSidebar = ({ articles, language, onEdit, onDelete, formatTimeAgo }) =
 
       {/* Latest Section */}
       <div>
-<<<<<<< HEAD
-        <div className="bg-white text-red-600 text-xs font-bold px-2 py-1 inline-block morion-font mb-4">
-=======
         <div className="bg-white text-red-600 text-xs px-2 py-1 inline-block morion-font mb-4">
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
           LATEST
         </div>
         
-        <div className="space-y-6">
+        <div className="space-y-4 lg:space-y-6">
           {latestArticles.map((article) => (
             <div 
               key={`latest-${article.id}`} 
               className="group relative cursor-pointer hover:opacity-90 transition-opacity"
               onClick={() => handleArticleClick(article.id)}
             >
-                <div className="border-b border-gray-400 ">
+                <div className="border-b border-gray-400 pb-4">
 
-<<<<<<< HEAD
-                {/* Left side: Title and Content */}              <h3 className="text-lg font-bold text-black morion-font mb-2 line-clamp-2">
-=======
-                {/* Left side: Title and Content */}              <h3 className="text-lg text-black morion-font mb-2 line-clamp-2">
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
+                {/* Left side: Title and Content */}              <h3 className="text-base lg:text-lg text-black morion-font mb-2 line-clamp-2">
                 {article.title}
               </h3>
               
-              <div className="flex items-center text-sm text-gray-600 morion-font">
+              <div className="flex items-center text-xs lg:text-sm text-gray-600 morion-font">
                 <span className="font-medium">News</span>
                 <span className="mx-2">•</span>
                 <span>{formatTimeAgo(article.created_at)}</span>
@@ -133,20 +113,16 @@ const RightSidebar = ({ articles, language, onEdit, onDelete, formatTimeAgo }) =
       </div>
 
       {/* Live Blog Section */}
-      <div className="mt-8 border-t border-gray-200 pt-6">
+      <div className="mt-6 lg:mt-8 border-t border-gray-200 pt-4 lg:pt-6">
         <h3 
-<<<<<<< HEAD
-          className="text-lg font-bold text-black morion-font mb-4 cursor-pointer hover:opacity-90 transition-opacity"
-=======
-          className="text-lg text-black morion-font mb-4 cursor-pointer hover:opacity-90 transition-opacity"
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
+          className="text-base lg:text-lg text-black morion-font mb-3 lg:mb-4 cursor-pointer hover:opacity-90 transition-opacity line-clamp-2"
           onClick={() => articles[0] && handleArticleClick(articles[0].id)}
         >
           Live Blog: {articles[0]?.title}
         </h3>
         {articles[0]?.image && (
           <div 
-            className="w-full h-32 bg-gray-200 mb-3 cursor-pointer hover:opacity-90 transition-opacity"
+            className="w-full h-24 lg:h-32 bg-gray-200 mb-3 cursor-pointer hover:opacity-90 transition-opacity"
             onClick={() => handleArticleClick(articles[0].id)}
           >
             <img

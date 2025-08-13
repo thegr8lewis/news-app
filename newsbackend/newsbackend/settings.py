@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
-from pathlib import Path
+# Load environment variables
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xw%g@_16k=0#b5t^zi@l1b&3)&m=8i&ll$ws#6h19y)#p3d1k^'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-change-me-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
@@ -53,12 +55,9 @@ CORS_ALLOWED_ORIGINS = [  # Fixed the typo (ORIGINS -> ORIGINS)
 # newsbackend/settings.py
 
 REST_FRAMEWORK = {
-<<<<<<< HEAD
-=======
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'
     ],
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',  # This allows all requests without authentication
     ],
@@ -79,10 +78,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'newsapi',
     'rest_framework.authtoken',
-<<<<<<< HEAD
-=======
     'django_filters',
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
 ]
 
 MIDDLEWARE = [
@@ -121,12 +117,12 @@ WSGI_APPLICATION = 'newsbackend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'news_database',
-        'USER': 'myuser',
-        'PASSWORD': 'mypassword',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DATABASE_NAME', 'news_database'),
+        'USER': os.getenv('DATABASE_USER', 'myuser'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'mypassword'),
+        'HOST': os.getenv('DATABASE_HOST', 'localhost'),
+        'PORT': os.getenv('DATABASE_PORT', '5432'),
     }
 }
 

@@ -11,20 +11,20 @@ const FeaturedLiveBlog = ({ article, language, onEdit, onDelete, formatTimeAgo }
   if (!article) return null;
 
   return (
-    <div className="mb-8 border-b-1 border-gray-400">
-      <div className="relative bg-gray-50 p-6 flex gap-6">
+    <div className="mb-6 sm:mb-8 border-b-1 border-gray-400">
+      <div className="relative bg-gray-50 p-3 sm:p-6 flex flex-col lg:flex-row gap-4 lg:gap-6">
         {/* Left side: Content */}
         <div 
           className="flex-1 cursor-pointer hover:opacity-90 transition-opacity" 
           onClick={handleArticleClick}
         >
-          <h1 className="text-5xl font-bold text-black leading-tight morion-font mb-4">
+          <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-black leading-tight morion-font mb-3 sm:mb-4">
              {article.title}
           </h1>
           
-          <p className="text-lg text-gray-700 leading-relaxed morion-font mb-4">
-            {article.content.length > 150 
-              ? article.content.substring(0, 150) + '...'
+          <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed morion-font mb-3 sm:mb-4">
+            {article.content.length > 120 
+              ? article.content.substring(0, 120) + '...'
               : article.content
             }
           </p>
@@ -33,8 +33,8 @@ const FeaturedLiveBlog = ({ article, language, onEdit, onDelete, formatTimeAgo }
           </div>
           
           {article.video && (
-            <div className="mt-6">
-              <video controls className="w-full max-h-80 rounded">
+            <div className="mt-4 sm:mt-6">
+              <video controls className="w-full max-h-48 sm:max-h-80 rounded">
                 <source src={article.video} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
@@ -45,7 +45,7 @@ const FeaturedLiveBlog = ({ article, language, onEdit, onDelete, formatTimeAgo }
         {/* Right side: Image */}
         {article.image && (
           <div 
-            className="w-80 h-80 bg-gray-100 overflow-hidden flex-shrink-0 cursor-pointer hover:opacity-90 transition-opacity"
+            className="w-full h-48 sm:h-64 lg:w-80 lg:h-80 bg-gray-100 overflow-hidden flex-shrink-0 cursor-pointer hover:opacity-90 transition-opacity"
             onClick={handleArticleClick}
           >
             <img

@@ -12,10 +12,8 @@
   "dependencies": {
     "@headlessui/react": "^2.2.4",
     "@tailwindcss/vite": "^4.1.10",
-<<<<<<< HEAD
-=======
     "dotenv": "^16.5.0",
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
+    "lucide-react": "^0.539.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2",

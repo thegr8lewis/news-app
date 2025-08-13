@@ -11,28 +11,28 @@ const GridArticles = ({ articles, language, onEdit, onDelete, formatTimeAgo }) =
   if (!articles || articles.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-2 gap-0 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-0 mb-8">
       {articles.map((article) => (
-        <div key={article.id} className="group relative border-b border-b-gray-400 border-r border-r-gray-300">
+        <div key={article.id} className="group relative border-b border-b-gray-400 sm:border-r sm:border-r-gray-300">
           <div 
-            className="bg-gray-50 p-4 h-full flex gap-3 cursor-pointer hover:bg-gray-100 transition-colors"
+            className="bg-gray-50 p-3 sm:p-4 h-full flex gap-2 sm:gap-3 cursor-pointer hover:bg-gray-100 transition-colors"
             onClick={() => handleArticleClick(article.id)}
           >
             {/* Left side: Title and Content */}
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-black morion-font mb-2 line-clamp-2">
+              <h3 className="text-lg sm:text-xl font-bold text-black morion-font mb-2 line-clamp-2">
                 {article.title}
               </h3>
               
-              <div className="flex items-center text-sm text-gray-600 morion-font mb-3">
+              <div className="flex items-center text-xs sm:text-sm text-gray-600 morion-font mb-2 sm:mb-3">
                 <span className="font-medium">Guest Blogs</span>
-                <span className="mx-2">•</span>
+                <span className="mx-1 sm:mx-2">•</span>
                 <span>{formatTimeAgo(article.created_at)}</span>
               </div>
               
               {article.content && (
-                <p className="text-gray-700 text-sm morion-font line-clamp-3">
-                  {article.content.substring(0, 120)}...
+                <p className="text-gray-700 text-xs sm:text-sm morion-font line-clamp-2 sm:line-clamp-3">
+                  {article.content.substring(0, 100)}...
                 </p>
               )}
             </div>
@@ -40,7 +40,7 @@ const GridArticles = ({ articles, language, onEdit, onDelete, formatTimeAgo }) =
             {/* Right side: Image */}
             {article.image && (
               <div 
-                className="w-20 h-16 bg-gray-200 flex-shrink-0 cursor-pointer"
+                className="w-16 h-12 sm:w-20 sm:h-16 bg-gray-200 flex-shrink-0 cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleArticleClick(article.id);

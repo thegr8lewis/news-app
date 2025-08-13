@@ -1,8 +1,5 @@
 from django.contrib import admin
-<<<<<<< HEAD
-
-# Register your models here.
-=======
+from django.db import models
 from .models import Article
 
 class ArticleAdmin(admin.ModelAdmin):
@@ -11,8 +8,10 @@ class ArticleAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         return qs.filter(original_article__isnull=True)  # Only show originals
     
-    list_display = ('title', 'language', 'category', 'created_at')
-    list_filter = ('language', 'category', 'created_at')
+    list_display = ('title', 'language', 'category', 'is_published', 'created_at')
+    list_filter = ('language', 'category', 'is_published', 'created_at')
+    search_fields = ('title', 'content')
+    list_editable = ('is_published',)
     
     # Custom change form to show all translations
     def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
@@ -30,4 +29,3 @@ class ArticleAdmin(admin.ModelAdmin):
         return super().changeform_view(request, object_id, form_url, extra_context)
 
 admin.site.register(Article, ArticleAdmin)
->>>>>>> 612db8ebfe5af6bc261c1d676ea905327c4b3be9
