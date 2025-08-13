@@ -91,10 +91,8 @@ const ArticleList = () => {
   return (
     <>
       <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Morion:wght@300;400;500;600;700;800&display=swap');
-        
         .morion-font {
-          font-family: 'Morion', serif;
+          font-family: 'Times New Roman', Georgia, 'Liberation Serif', serif;
         }
         
         .line-clamp-2 {

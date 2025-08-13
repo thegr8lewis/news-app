@@ -54,7 +54,7 @@ const FeaturedLiveBlog = ({ article, language, onEdit, onDelete, formatTimeAgo }
               className="w-full h-full object-cover"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = '/placeholder-image.jpg';
+                e.target.src = '/placeholder-image.svg';
               }}
             />
           </div>
