@@ -21,6 +21,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<ArticleList language={language} onLanguageChange={setLanguage} />} />
               <Route path="/admin" element={<AdminDashboard language={language} onLanguageChange={setLanguage} />} />
+              <Route path="/test" element={<div><h1>Test Route Works!</h1><p>If you see this, routing is working.</p></div>} />
               <Route path="/articles/:id" element={<ArticleDetail language={language} onLanguageChange={setLanguage} />} />
               <Route path="/admin/articles" element={<AdminArticleList />} />
               <Route path="/admin/articles/:articleId" element={<AdminArticleDetails />} />
