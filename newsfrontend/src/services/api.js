@@ -6,6 +6,10 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000
 function ensureAbsoluteUrl(path) {
   if (!path) return null;
   if (path.startsWith('http')) return path;
+  if (path.startsWith('/media/')) {
+    // Convert /media/ paths to use the CORS-enabled /api/media/ endpoint
+    return `${API_BASE_URL}/api${path}`;
+  }
   if (path.startsWith('/')) return `${API_BASE_URL}${path}`;
   return `${API_BASE_URL}/${path}`;
 }
@@ -33,7 +37,13 @@ export const getArticleById = async (id, language = 'en') => {
   if (!response.ok) {
     throw new Error('Failed to fetch article');
   }
-  return response.json();
+  const article = await response.json();
+  return {
+    ...article,
+    // Handle both relative and absolute URLs from backend
+    image: article.image ? ensureAbsoluteUrl(article.image) : null,
+    video: article.video ? ensureAbsoluteUrl(article.video) : null
+  };
 };
 
 export const createArticle = async (articleData, onTranslationProgress) => {
