@@ -5,7 +5,16 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000
 // Helper function to ensure proper URL formatting
 function ensureAbsoluteUrl(path) {
   if (!path) return null;
-  if (path.startsWith('http')) return path;
+  
+  // If it's already an absolute URL, transform it to use the CORS-enabled endpoint
+  if (path.startsWith('http')) {
+    // Convert URLs like https://domain.com/media/... to https://domain.com/api/media/...
+    if (path.includes('/media/')) {
+      return path.replace('/media/', '/api/media/');
+    }
+    return path;
+  }
+  
   if (path.startsWith('/media/')) {
     // Convert /media/ paths to use the CORS-enabled /api/media/ endpoint
     return `${API_BASE_URL}/api${path}`;
