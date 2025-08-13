@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install dependencies
-npm ci
+npm install
 
 # Build the project
 npm run build
