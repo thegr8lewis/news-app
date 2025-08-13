@@ -15,3 +15,12 @@ services:
         value: 3.11.4
       - key: DEBUG
         value: False
+
+  - type: static
+    name: news-app-frontend
+    buildCommand: "cd newsfrontend && chmod +x build.sh && ./build.sh"
+    staticPublishPath: newsfrontend/dist
+    plan: free
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://news-app-backend-4cwg.onrender.com

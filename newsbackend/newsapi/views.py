@@ -478,9 +478,22 @@ class ArticleViewSet(viewsets.ModelViewSet):
 def serve_media(request, path):
     """Custom media file serving with proper CORS headers"""
     try:
+        logger.info(f"Requested media path: {path}")
+        logger.info(f"MEDIA_ROOT: {settings.MEDIA_ROOT}")
+        
         file_path = os.path.join(settings.MEDIA_ROOT, path)
+        logger.info(f"Full file path: {file_path}")
+        
+        # Log directory contents for debugging
+        media_dir = os.path.dirname(file_path)
+        if os.path.exists(media_dir):
+            files = os.listdir(media_dir)
+            logger.info(f"Files in {media_dir}: {files}")
+        else:
+            logger.info(f"Directory does not exist: {media_dir}")
         
         if not os.path.exists(file_path):
+            logger.error(f"File not found: {file_path}")
             raise Http404("Media file not found")
             
         # Get the file content type
@@ -498,8 +511,9 @@ def serve_media(request, path):
         response['Cross-Origin-Resource-Policy'] = 'cross-origin'
         response['Cross-Origin-Embedder-Policy'] = 'unsafe-none'
         
+        logger.info(f"Successfully served media file: {path}")
         return response
         
     except Exception as e:
-        logger.error(f"Media serving error: {str(e)}")
+        logger.error(f"Media serving error for path {path}: {str(e)}")
         raise Http404("Media file not found")
